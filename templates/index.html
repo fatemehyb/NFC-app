@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en-GB" xml:lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <title>QR Codes</title>
+    <meta name="viewport" content="width=device-width">
+    <!-- <link rel="stylesheet" href="main.css"> -->
+    <style>
+        img{
+            width: 10%;
+        }
+        div img{
+            width: 10%;
+        }
+    </style>
+    <script src="../static/qrcode.js"></script>
+    
+    
+  <!--<meta http-equiv="refresh" content="1">-->
+      <title>{{ title }}</title>
+      <link rel="stylesheet" href='../static/style1.css'/>
+<script type="text/JavaScript">
+function timedRefresh(timeoutPeriod) {
+	setTimeout("location.reload(true);",timeoutPeriod);
+}
+</script>
+<script type="text/javascript" src="../static/jquery.min.js"></script>
+<script type="text/javascript" src="../static/qrcode.js"></script>
+
+</head>
+
+
+<body>
+    <h1>The NFC Project Web Page</h1>
+    <h2>Welcom! Please open the following webpage by scanning the QRcode</h2>
+    <h2>Main Page url: {{main_page}}</h2>
+<!-- </html> -->
+
+<!-- <head> -->
+    <meta charset="UTF-8">
+    <!-- <title>QR Codes</title>-->
+    <meta name="viewport" content="width=device-width"> 
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+  <!-- <meta http-equiv="refresh" content="1"> -->
+      <title>{{ title }}</title> 
+
+    
+       <div id="output"></div>
+      
+       
+
+<script>
+// function makeCode () {		
+// 	var elText = document.getElementById("text");
+	
+// 	if (!elText.value) {
+// 		alert("Input a text");
+// 		elText.focus();
+// 		return;
+// 	}
+	
+// 	qrcode.makeCode(elText.value);
+// }
+
+let qrcode = new QRCode("output", {
+            text: "{{main_page}}",
+            width: 177,
+            height: 177,
+            colorDark : "#990000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+        
+        qrcode.makeCode("{{main_page}}"); 
+  
+</script>
+
+<title>Flask-SocketIO Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+
+		$(document).ready(function(){
+
+			// sending a connect request to the server.
+			// var socket = io.connect('http://localhost:5000');
+            var socket=io()
+			// An event handler for a change of value 
+			$('input.sync').on('input', function(event) {
+                socket.emit('Slider value changed', {who: $(this).attr('id'), data: $(this).val()});
+                window.open('{{URL}}', '_blank');
+                return false;
+            });
+
+            socket.on('after connect', function(msg){
+            	console.log('After connect', msg);
+            });
+
+            socket.on('update value', function(msg) {
+            	console.log('Slider value updated');
+                $('#'+msg.who).val(msg.data);
+                // document.getElementById('output').innerHTML = data.val();
+                window.open('{{URL}}', '_blank');
+            });
+		});
+        
+	</script>
+
+<!-- ////////////////////////////////////////////////////////////////////////////// -->
+
+
+    <script>
+        var pattern = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+        $(document).ready(function() {
+            var previous_value = null;
+  setInterval(function() {
+    $.ajax({
+      
+      url: '/update_variable2',
+      success: function(response) {
+        if ((response.new_value !== previous_value) && (pattern.test(response.new_value))&& (response.Flag==1)){
+        $('#my_variable_container').text(response.new_value);
+        // var new_window = window.open(response.new_value);
+        var myWindowURL = response.new_value, myWindowName = "ONE";
+        var myWindowProperties  = "width=+screen.availWidth,height=+screen.availHeight,top=100,left=100,menubar=no,toolbar=no,titlebar=no,statusbar=no";
+        openWindow = window.open(myWindowURL, myWindowName, myWindowProperties); 
+        // new_window.document.write(response.new_value);
+        // Update the previous value
+        previous_value = response.new_value;
+        
+        }
+        else if ((response.new_value==previous_value && openWindow.closed)&& (response.Flag==1)){var myWindowURL = response.new_value, myWindowName = "ONE";
+        var myWindowProperties  = "width=+screen.availWidth,height=+screen.availHeight,top=100,left=100,menubar=no,toolbar=no,titlebar=no,statusbar=no";
+        window.close()
+        openWindow = window.open(myWindowURL, myWindowName, myWindowProperties); }
+      }
+    });
+  }, 1000);
+});
+        </script>
+
+  
+
+
+<!-- ################################################################################### -->
+
+
+   
+
+<!-- /////////////////////////////////////////////////////////// -->
+<!-- <h1>Flask-SocketIO Test</h1>
+<p id="my_variable_container">{{ my_variable }}</p> -->
+
+<!-- /////////////////////////////////////////////////////////////// -->
+</body>
+</html>
